@@ -1,0 +1,10 @@
+66207f07e17f88e1790220a34ae72351 *DESCRIPTION
+8e443e4838b5bdfcca5901b96f89ac82 *NAMESPACE
+1b9dd33caf4e32b31e9c8d446e58f69a *NEWS.md
+a6e7cfaa01c4615d9cab33f5ba2f94b0 *R/ggbreak.R
+4a469b2b12c24428bbd6fd1ce3495aa0 *R/method-ggplot-add.R
+08964ebe0cb9d4cc336ae290c38ea2c0 *R/method-grid-draw.R
+cd466e8d42c9985dbc218da6cccefd18 *R/method-plot.R
+f44420eeeaefb0d3103579d9f6b3c116 *R/method-print.R
+b7cc746bb1e096755d60bec70365c5d5 *R/utilities.R
+be0090d827c094e105cb34511235b41c *man/scale_break.Rd
