@@ -1,3 +1,13 @@
+# ggbreak 0.0.3
+
++ compatible with `patchwork` for axis break plots + gg plot (2021-05-21, Fri)
++ supports setting axis tick labels (2021-05-20, Tue)
++ `scale_x_cut` and `scale_y_cut` functions (2021-05-18, Tue)
++ `scale_wrap` function and support of using date object as axis (2021-05-15, Sat)
++ add vignette (2021-05-14, Fri)
++ support `coord_flip`, `facet_grid` and `facet_wrap` (2021-05-14, Fri)
++ support `legend` and all labels (x, y, title, subtitle, caption and tag)
+
 # ggbreak 0.0.2
 
 + compatible with `patchwork`, now p1 + p2 (or other operations) will align two ggbreak plot (2021-05-11, Tue)  
