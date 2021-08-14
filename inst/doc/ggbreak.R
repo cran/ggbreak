@@ -68,14 +68,14 @@ pg <- p +
 print(pg)
 
 ## ----message=FALSE------------------------------------------------------------
-pg <- pg + aes(fill=group)
+pg <- pg + aes(fill=group) + theme(legend.position = "bottom")
 print(pg)
 
 ## ----message=FALSE------------------------------------------------------------
 pg + labs(title="test title", subtitle="test subtitle", tag="A tag", caption="A caption") +
      theme_bw() +
      theme(
-           legend.position = c(0.8, 0.8),
+           legend.position = "bottom",
            strip.placement = "outside",
            axis.title.x=element_text(size=10),
            plot.title = element_text(size = 22),

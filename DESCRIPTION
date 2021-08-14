@@ -1,6 +1,6 @@
 Package: ggbreak
 Title: Set Axis Break for 'ggplot2'
-Version: 0.0.3
+Version: 0.0.4
 Authors@R: c(
        person("Guangchuang", "Yu",     email = "guangchuangyu@gmail.com", role = c("aut", "cre", "cph"), comment = c(ORCID = "0000-0002-6485-8781")),
        person("Shuangbin", "Xu",       email = "xshuangbin@163.com",      role = "aut", comment = c(ORCID="0000-0003-3513-5362"))
@@ -14,10 +14,10 @@ Encoding: UTF-8
 URL: https://github.com/YuLab-SMU/ggbreak
 RoxygenNote: 7.1.1
 NeedsCompilation: no
-Packaged: 2021-05-21 03:39:15 UTC; ygc
+Packaged: 2021-08-14 09:12:08 UTC; ygc
 Author: Guangchuang Yu [aut, cre, cph]
     (<https://orcid.org/0000-0002-6485-8781>),
   Shuangbin Xu [aut] (<https://orcid.org/0000-0003-3513-5362>)
 Maintainer: Guangchuang Yu <guangchuangyu@gmail.com>
 Repository: CRAN
-Date/Publication: 2021-05-21 04:50:13 UTC
+Date/Publication: 2021-08-14 09:30:02 UTC

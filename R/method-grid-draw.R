@@ -37,6 +37,7 @@ grid.draw.ggbreak <- function(x, recording = TRUE) {
     newxlab <- switch(coord_fun, coord_flip=totallabs$y, coord_cartesian=totallabs$x)
     newylab <- switch(coord_fun, coord_flip=totallabs$x, coord_cartesian=totallabs$y)
     relrange <- compute_relative_range(breaks=breaks, scales=scales, rng=rng)
+    legendpos <- check_legend_position(plot=x)
     if (!rng$flagrev %in% c("identity","reverse")){
         breaks <- lapply(breaks, function(i)rng$inversefun(i))
     }
@@ -46,13 +47,13 @@ grid.draw.ggbreak <- function(x, recording = TRUE) {
         scaleind <- NULL
     }
     if(axis == 'x') {
-        p1 <- x + do.call(coord_fun, list(xlim = c(breaks[[1]][1], breaks[[1]][2]))) + subplottheme1
+        p1 <- x + do.call(coord_fun, list(xlim = c(breaks[[1]][1], breaks[[1]][2]), expand=FALSE)) + subplottheme1
 
         pp1 <- lapply(breaks[-c(1, nbreaks)], function(i) 
-                            x + do.call(coord_fun, list(xlim=c(i[1], i[2]))) + 
+                            x + do.call(coord_fun, list(xlim=c(i[1], i[2]), expand=FALSE)) + 
                             subplottheme2)
         
-        pp2 <- x + do.call(coord_fun, list(xlim = c(breaks[[nbreaks]][1], breaks[[nbreaks]][2]))) +
+        pp2 <- x + do.call(coord_fun, list(xlim = c(breaks[[nbreaks]][1], breaks[[nbreaks]][2]), expand=FALSE)) +
                subplottheme3
 
         if (length(ticklabs) > 1){
@@ -87,23 +88,23 @@ grid.draw.ggbreak <- function(x, recording = TRUE) {
                     coord_flip = plot_list(gglist=c(list(pp2), rev(pp1), list(p1)), 
                                            ncol=1,
                                            heights=c(rev(relrange[-1]), relrange[1]),
-                                           guides = 'collect'),
+                                           guides = 'collect') & legendpos,
                     coord_cartesian = plot_list(gglist=c(list(p1), pp1, list(pp2)), 
                                                 nrow=1, 
                                                 widths=relrange,
-                                                guides = 'collect')
+                                                guides = 'collect') & legendpos
                     )
     } else {
         breaks <- rev(breaks)
         ticklabs <- rev(ticklabs)
 
-        p1 <- x + do.call(coord_fun, list(ylim = c(breaks[[nbreaks]][1], breaks[[nbreaks]][2]))) + subplottheme1
+        p1 <- x + do.call(coord_fun, list(ylim = c(breaks[[nbreaks]][1], breaks[[nbreaks]][2]), expand=FALSE)) + subplottheme1
 
         pp1 <- lapply(breaks[-c(1, nbreaks)], function(i) 
-                      x + do.call(coord_fun, list(ylim=c(i[1], i[2]))) +
+                      x + do.call(coord_fun, list(ylim=c(i[1], i[2]), expand=FALSE)) +
                             subplottheme2)
 
-        pp2 <- x + do.call(coord_fun, list(ylim = c(breaks[[1]][1], breaks[[1]][2]))) +
+        pp2 <- x + do.call(coord_fun, list(ylim = c(breaks[[1]][1], breaks[[1]][2]), expand=FALSE)) +
                subplottheme3
         
         if (length(ticklabs) > 1){
@@ -138,11 +139,11 @@ grid.draw.ggbreak <- function(x, recording = TRUE) {
                     coord_flip = plot_list(gglist=c(list(p1), rev(pp1), list(pp2)), 
                                            nrow=1, 
                                            widths=relrange,
-                                           guides = 'collect'),
+                                           guides = 'collect') & legendpos,
                     coord_cartesian = plot_list(gglist=c(list(pp2), pp1, list(p1)), 
                                                 ncol=1, 
                                                 heights=c(rev(relrange[-1]), relrange[1]),
-                                                guides = 'collect')
+                                                guides = 'collect') & legendpos
                )
     }
 
@@ -150,7 +151,11 @@ grid.draw.ggbreak <- function(x, recording = TRUE) {
     totallabs$y <- NULL
     g <- ggplotify::as.ggplot(g) + xlab(newxlab) + ylab(newylab)
     g <- set_label(g, totallabs = totallabs, p2 = x)
-    print(g)
+    if (recording){
+        print(g)
+    }
+    
+    invisible(g)
 }
 
 ##' @method grid.draw ggwrap
@@ -172,10 +177,16 @@ grid.draw.ggwrap <- function(x, recording=TRUE){
     if (!rngrev$flagrev %in% c("identity", "reverse")){
         breaks <- rngrev$inversefun(breaks)
     }
-    gg <- lapply(seq_len(length(breaks)-1), function(i) x + coord_cartesian(xlim=c(breaks[i], breaks[i+1])))
-    pg <- plot_list(gg, ncol=1, guides="collect")
+    legendpos <- check_legend_position(plot=x)
+    gg <- lapply(seq_len(length(breaks)-1), function(i) x + coord_cartesian(xlim=c(breaks[i], breaks[i+1]), expand=FALSE))
+    pg <- plot_list(gg, ncol=1, guides="collect") & legendpos
     g <- set_label(as.ggplot(pg), totallabs=totallabs, p2=x)
-    print (g)
+    if (recording){
+        print(g)
+    }
+
+    invisible(g)
+
 }
 
 #' @method grid.draw ggcut
@@ -200,48 +211,54 @@ grid.draw.ggcut <- function(x, recording=TRUE){
     coord_fun <- check_coord_flip(plot=x)
     newxlab <- switch(coord_fun, coord_flip=totallabs$y, coord_cartesian=totallabs$x)
     newylab <- switch(coord_fun, coord_flip=totallabs$x, coord_cartesian=totallabs$y)
+    legendpos <- check_legend_position(plot=x)
     if (!rngrev$flagrev %in% c("identity", "reverse")){
         breaks <- rngrev$inversefun(breaks)
     }
     if(axis == 'x') {
-        p1 <- x + do.call(coord_fun, list(xlim = c(breaks[[1]][1], breaks[[1]][2]))) + subplottheme1
+        p1 <- x + do.call(coord_fun, list(xlim = c(breaks[[1]][1], breaks[[1]][2]), expand=FALSE)) + subplottheme1
         pp1 <- lapply(breaks[-c(1, nbreaks)], function(i)
-                            x + do.call(coord_fun, list(xlim=c(i[1], i[2]))) +
+                            x + do.call(coord_fun, list(xlim=c(i[1], i[2]), expand=FALSE)) +
                             subplottheme2)
-        pp2 <- x + do.call(coord_fun, list(xlim = c(breaks[[nbreaks]][1], breaks[[nbreaks]][2]))) +
+        pp2 <- x + do.call(coord_fun, list(xlim = c(breaks[[nbreaks]][1], breaks[[nbreaks]][2]), expand=FALSE)) +
                subplottheme3
         g <- switch(coord_fun,
                     coord_flip = plot_list(gglist=c(list(pp2), rev(pp1), list(p1)),
                                            ncol=1,
                                            heights=relrange,#c(rev(relrange[-1]), relrange[1]),
-                                           guides = 'collect'),
+                                           guides = 'collect') & legendpos, 
                     coord_cartesian = plot_list(gglist=c(list(p1), pp1, list(pp2)),
                                                 nrow=1,
                                                 widths=relrange,
-                                                guides = 'collect')
+                                                guides = 'collect') & legendpos
                     )
     } else {
         breaks <- rev(breaks)
-        p1 <- x + do.call(coord_fun, list(ylim = c(breaks[[nbreaks]][1], breaks[[nbreaks]][2]))) + subplottheme1
+        p1 <- x + do.call(coord_fun, list(ylim = c(breaks[[nbreaks]][1], breaks[[nbreaks]][2]), expand=FALSE)) + subplottheme1
         pp1 <- lapply(breaks[-c(1, nbreaks)], function(i)
-                      x + do.call(coord_fun, list(ylim=c(i[1], i[2]))) +
+                      x + do.call(coord_fun, list(ylim=c(i[1], i[2]), expand=FALSE)) +
                             subplottheme2)
-        pp2 <- x + do.call(coord_fun, list(ylim = c(breaks[[1]][1], breaks[[1]][2]))) +
+        pp2 <- x + do.call(coord_fun, list(ylim = c(breaks[[1]][1], breaks[[1]][2]), expand=FALSE)) +
                subplottheme3
         g <- switch(coord_fun,
                     coord_flip = plot_list(gglist=c(list(p1), rev(pp1), list(pp2)),
                                            nrow=1,
                                            widths=relrange,
-                                           guides = 'collect'),
+                                           guides = 'collect') & legendpos,
                     coord_cartesian = plot_list(gglist=c(list(pp2), pp1, list(p1)),
                                                 ncol=1,
                                                 heights=relrange,#c(rev(relrange[-1]), relrange[1]),
-                                                guides = 'collect')
+                                                guides = 'collect') & legendpos
                )
     }
     totallabs$x <- NULL
     totallabs$y <- NULL
     g <- ggplotify::as.ggplot(g) + xlab(newxlab) + ylab(newylab)
     g <- set_label(g, totallabs = totallabs, p2 = x)
-    print(g)
+    if (recording){
+        print(g)
+    }
+    
+    invisible(g)
+
 }
