@@ -3,7 +3,12 @@
 ggrange2 <- function (plot, var) {
     var <- paste0("panel_scales_", var)
     gb <- ggplot_build(plot)
-    axis_range <- gb$layout[[var]][[1]]$range$range
+    limits <- gb$layout[[var]][[1]]$limits
+    if (!is.null(limits)){
+        axis_range <- limits
+    }else{
+        axis_range <- gb$layout[[var]][[1]]$range$range
+    }
     flagrev <- gb$layout[[var]][[1]]$trans$name
     transfun <- gb$layout[[var]][[1]]$trans$transform
     inversefun <- gb$layout[[var]][[1]]$trans$inverse
@@ -22,8 +27,7 @@ check_legend_position <- function(plot){
 #' @importFrom ggplot2 labs
 set_label <- function(p, totallabs, p2 = NULL) {
     p <- p + 
-         do.call(labs, totallabs) +
-         theme(axis.title = element_text())
+         do.call(labs, totallabs) 
 
     if (is.null(p2)) {
         has_theme <- FALSE
@@ -32,13 +36,18 @@ set_label <- function(p, totallabs, p2 = NULL) {
     }
 
     if (has_theme) {
-        x <- p2
+        x <- p2 
     } else {
         x <- NULL
     }
-    labs_params <- c("axis.title.x","axis.title.y", "plot.title", "plot.title.position", "plot.subtitle",
-                    "plot.caption", "plot.caption.position", "plot.tag", "plot.tag.position")
-    p <- p + theme_fp(x=x, i=labs_params)
+    labs_params <- c("text", "title", "axis.title", "axis.title.x","axis.title.y", 
+                     "plot.title", "plot.title.position", "plot.subtitle",
+                     "plot.caption", "plot.caption.position", "plot.tag", "plot.tag.position")
+    p <- p + 
+         theme_fp(x=x, i=labs_params) +
+         theme(axis.text = element_blank(),
+               axis.ticks = element_blank()
+               )
     return(p)
 }
 
@@ -181,6 +190,7 @@ get_theme_params = function(x, i) {
 
 theme_fp <- function(x, i) {
     params <- get_theme_params(x, i)
+    params <- c(params, list(complete = TRUE))
     do.call(theme, params)
 }
 

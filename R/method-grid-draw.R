@@ -14,6 +14,7 @@
 ##' @export
 grid.draw.ggbreak <- function(x, recording = TRUE) {
     class(x) <- class(x)[class(x) != "ggbreak"]
+    x <- check_xy_intercept(plot=x)
     axis_break <- attr(x, 'axis_break')
     axis_breaks <- extract_axis_break(object=axis_break)
     axis <- axis_breaks$axis
@@ -47,14 +48,15 @@ grid.draw.ggbreak <- function(x, recording = TRUE) {
     }else{
         scaleind <- NULL
     }
+    expand <- getOption(x="scale_xy_expand", default = FALSE)
     if(axis == 'x') {
-        p1 <- x + do.call(coord_fun, list(xlim = c(breaks[[1]][1], breaks[[1]][2]), expand=FALSE)) + subplottheme1
+        p1 <- x + do.call(coord_fun, list(xlim = c(breaks[[1]][1], breaks[[1]][2]), expand = expand)) + subplottheme1
 
         pp1 <- lapply(breaks[-c(1, nbreaks)], function(i) 
-                            x + do.call(coord_fun, list(xlim=c(i[1], i[2]), expand=FALSE)) + 
+                            x + do.call(coord_fun, list(xlim=c(i[1], i[2]), expand = expand)) + 
                             subplottheme2)
         
-        pp2 <- x + do.call(coord_fun, list(xlim = c(breaks[[nbreaks]][1], breaks[[nbreaks]][2]), expand=FALSE)) +
+        pp2 <- x + do.call(coord_fun, list(xlim = c(breaks[[nbreaks]][1], breaks[[nbreaks]][2]), expand= expand)) +
                subplottheme3
 
         if (length(ticklabs) > 1){
@@ -99,13 +101,13 @@ grid.draw.ggbreak <- function(x, recording = TRUE) {
         breaks <- rev(breaks)
         ticklabs <- rev(ticklabs)
 
-        p1 <- x + do.call(coord_fun, list(ylim = c(breaks[[nbreaks]][1], breaks[[nbreaks]][2]), expand=FALSE)) + subplottheme1
+        p1 <- x + do.call(coord_fun, list(ylim = c(breaks[[nbreaks]][1], breaks[[nbreaks]][2]), expand = expand)) + subplottheme1
 
         pp1 <- lapply(breaks[-c(1, nbreaks)], function(i) 
-                      x + do.call(coord_fun, list(ylim=c(i[1], i[2]), expand=FALSE)) +
+                      x + do.call(coord_fun, list(ylim=c(i[1], i[2]), expand = expand)) +
                             subplottheme2)
 
-        pp2 <- x + do.call(coord_fun, list(ylim = c(breaks[[1]][1], breaks[[1]][2]), expand=FALSE)) +
+        pp2 <- x + do.call(coord_fun, list(ylim = c(breaks[[1]][1], breaks[[1]][2]), expand = expand)) +
                subplottheme3
         
         if (length(ticklabs) > 1){
@@ -155,7 +157,6 @@ grid.draw.ggbreak <- function(x, recording = TRUE) {
     if (recording){
         print(g)
     }
-    
     invisible(g)
 }
 
@@ -163,6 +164,7 @@ grid.draw.ggbreak <- function(x, recording = TRUE) {
 ##' @export
 grid.draw.ggwrap <- function(x, recording=TRUE){
     class(x) <- class(x)[class(x) != "ggwrap"]
+    x <- check_xy_intercept(plot=x)
     axis_wrap <- attr(x, "axis_wrap")
     totallabs <- extract_totallabs(plot=x)
     if (length(totallabs) > 0){
@@ -179,7 +181,8 @@ grid.draw.ggwrap <- function(x, recording=TRUE){
         breaks <- rngrev$inversefun(breaks)
     }
     legendpos <- check_legend_position(plot=x)
-    gg <- lapply(seq_len(length(breaks)-1), function(i) x + coord_cartesian(xlim=c(breaks[i], breaks[i+1]), expand=FALSE))
+    expand <- getOption(x="scale_xy_expand", default = FALSE)
+    gg <- lapply(seq_len(length(breaks)-1), function(i) x + coord_cartesian(xlim=c(breaks[i], breaks[i+1]), expand = expand))
     pg <- plot_list(gglist=setNames(gg, NULL), ncol=1, guides="collect") & legendpos
     g <- set_label(as.ggplot(pg), totallabs=totallabs, p2=x)
     if (recording){
@@ -194,6 +197,7 @@ grid.draw.ggwrap <- function(x, recording=TRUE){
 #' @export
 grid.draw.ggcut <- function(x, recording=TRUE){
     class(x) <- class(x)[class(x) != "ggcut"]
+    x <- check_xy_intercept(plot=x)
     axis_cut <- attr(x, "axis_cut")
     axis <- axis_cut$axis
     totallabs <- extract_totallabs(plot=x)
@@ -216,12 +220,13 @@ grid.draw.ggcut <- function(x, recording=TRUE){
     if (!rngrev$flagrev %in% c("identity", "reverse")){
         breaks <- rngrev$inversefun(breaks)
     }
+    expand <- getOption(x="scale_xy_expand", default = FALSE)
     if(axis == 'x') {
-        p1 <- x + do.call(coord_fun, list(xlim = c(breaks[[1]][1], breaks[[1]][2]), expand=FALSE)) + subplottheme1
+        p1 <- x + do.call(coord_fun, list(xlim = c(breaks[[1]][1], breaks[[1]][2]), expand = expand)) + subplottheme1
         pp1 <- lapply(breaks[-c(1, nbreaks)], function(i)
-                            x + do.call(coord_fun, list(xlim=c(i[1], i[2]), expand=FALSE)) +
+                            x + do.call(coord_fun, list(xlim=c(i[1], i[2]), expand = expand)) +
                             subplottheme2)
-        pp2 <- x + do.call(coord_fun, list(xlim = c(breaks[[nbreaks]][1], breaks[[nbreaks]][2]), expand=FALSE)) +
+        pp2 <- x + do.call(coord_fun, list(xlim = c(breaks[[nbreaks]][1], breaks[[nbreaks]][2]), expand = expand)) +
                subplottheme3
         g <- switch(coord_fun,
                     coord_flip = plot_list(gglist=setNames(c(list(pp2), rev(pp1), list(p1)), NULL),
@@ -235,11 +240,11 @@ grid.draw.ggcut <- function(x, recording=TRUE){
                     )
     } else {
         breaks <- rev(breaks)
-        p1 <- x + do.call(coord_fun, list(ylim = c(breaks[[nbreaks]][1], breaks[[nbreaks]][2]), expand=FALSE)) + subplottheme1
+        p1 <- x + do.call(coord_fun, list(ylim = c(breaks[[nbreaks]][1], breaks[[nbreaks]][2]), expand = expand)) + subplottheme1
         pp1 <- lapply(breaks[-c(1, nbreaks)], function(i)
-                      x + do.call(coord_fun, list(ylim=c(i[1], i[2]), expand=FALSE)) +
+                      x + do.call(coord_fun, list(ylim=c(i[1], i[2]), expand = expand)) +
                             subplottheme2)
-        pp2 <- x + do.call(coord_fun, list(ylim = c(breaks[[1]][1], breaks[[1]][2]), expand=FALSE)) +
+        pp2 <- x + do.call(coord_fun, list(ylim = c(breaks[[1]][1], breaks[[1]][2]), expand = expand)) +
                subplottheme3
         g <- switch(coord_fun,
                     coord_flip = plot_list(gglist=setNames(c(list(p1), rev(pp1), list(pp2)), NULL),

@@ -1,10 +1,17 @@
+# ggbreak 0.0.6
+
++ remove xy intercept label and compatible with `xlim` and `ylim` (2021-09-24, Fri, #29)
++ import `is.ggbreak` and `ggbreak2ggplot` from the ggfun package (2021-09-16, Thu)
++ fixed x and y labels and introduced `scale_xy_expand` option (2021-09-15, Wed; #26)
++ applying text and title setting from pre-break graph to breaked graph (2021-09-09, Thu)
+
 # ggbreak 0.0.5
 
 + change according to `aplot::plot_list` (2021-09-03, Fri)
 
 # ggbreak 0.0.4
 
-+ set `expand=FALSE` (2021-08-14, Sat)
++ set `expand=FALSE` (2021-08-14, Sat) 
 + support setting e.g. `legend.position = "bottom"` via `theme()` (2021-05-31, Mon)
     - manual legend position (e.g. `legend.positon = c(.1, .2)`) is not supported currently
 + if passing `recording = FALSE` to `grid.draw` method, only graph object return without plotting the figure (2021-05-24, Mon)
