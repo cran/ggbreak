@@ -1,3 +1,8 @@
+# ggbreak 0.0.7
+
++ introduce `expand` argument (2021-10-22, Fri, #30)
++ add citation (2021-10-13, Wed)
+
 # ggbreak 0.0.6
 
 + remove xy intercept label and compatible with `xlim` and `ylim` (2021-09-24, Fri, #29)

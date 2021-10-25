@@ -6,6 +6,13 @@ library(ggplot2)
 library(ggbreak)
 library(patchwork)
 
+CRANpkg <- function (pkg) {
+    cran <- "https://CRAN.R-project.org/package"
+    fmt <- "[%s](%s=%s)"
+    sprintf(fmt, pkg, cran, pkg)
+}
+
+
 ## ----fig.keep="last"----------------------------------------------------------
 library(ggplot2)
 library(ggbreak) 
