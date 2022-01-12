@@ -153,3 +153,6 @@ d <- data.frame(
 p <- ggplot(d, aes(x, y)) + geom_col()
 p + scale_y_cut(breaks=c(7, 18), which=c(1, 3), scales=c(3, 0.5))
 
+## -----------------------------------------------------------------------------
+p + scale_y_cut(breaks=c(7, 18), which=c(1, 3), scales=c(3, 0.5), space=.5)
+
