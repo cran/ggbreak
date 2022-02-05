@@ -38,8 +38,6 @@ grid.draw.ggbreak <- function(x, recording = TRUE) {
     subplottheme2 <- subplot_theme(plot=x, axis=axis, type="other", margin = margin, rev = rng$flagrev)
     subplottheme3 <- subplot_theme(plot=x, axis=axis, type="last", margin = margin, rev = rng$flagrev)
     coord_fun <- check_coord_flip(plot=x) 
-    newxlab <- switch(coord_fun, coord_flip=totallabs$y, coord_cartesian=totallabs$x)
-    newylab <- switch(coord_fun, coord_flip=totallabs$x, coord_cartesian=totallabs$y)
     relrange <- compute_relative_range(breaks=breaks, scales=scales, rng=rng)
     legendpos <- check_legend_position(plot=x)
     if (!rng$flagrev %in% c("identity","reverse")){
@@ -50,14 +48,29 @@ grid.draw.ggbreak <- function(x, recording = TRUE) {
     }else{
         scaleind <- NULL
     }
-    #expand <- getOption(x="scale_xy_expand", default = FALSE)
     expand <- convert_expand(expand=expand)
     if (!is.null(scaleind)){
         x$scales$scales[[scaleind]]$expand <- expand
+        if (!inherits(x$scales$scales[[scaleind]]$name, "waiver")){
+            axis.title <- x$scales$scales[[scaleind]]$name
+            x <- remove_axis_title(x, axis, coord_fun)
+        }else{
+            axis.title <- NULL
+        }
+        if (!inherits(x$scales$scales[[scaleind]]$secondary.axis$name, "waiver")){
+            axis.sec.title <- x$scales$scales[[scaleind]]$secondary.axis$name
+            x <- remove_axis_title(x, axis, coord_fun, second = TRUE)
+        }else{
+            axis.sec.title <- NULL
+        }
     }else{
         scale_axis <- switch(axis, x=scale_x_continuous, y=scale_y_continuous)
         x <- suppressMessages(x + do.call(scale_axis, list(expand=expand)))
+        axis.title <- NULL
+        axis.sec.title <- NULL
     }
+    newxlab <- switch(coord_fun, coord_flip=totallabs$y, coord_cartesian=totallabs$x)
+    newylab <- switch(coord_fun, coord_flip=totallabs$x, coord_cartesian=totallabs$y)
     if(axis == 'x') {
         p1 <- suppressMessages(x + do.call(coord_fun, list(xlim = c(breaks[[1]][1], breaks[[1]][2]))) + subplottheme1)
 
@@ -173,7 +186,17 @@ grid.draw.ggbreak <- function(x, recording = TRUE) {
     totallabs$x <- NULL
     totallabs$y <- NULL
     g <- ggplotify::as.ggplot(g) + xlab(newxlab) + ylab(newylab)
+    
+    g <- check_axis_title(
+            plot = g, 
+            axis = axis, 
+            coord_fun = coord_fun,
+            axis.title = axis.title, 
+            axis.sec.title = axis.sec.title
+         )
+
     g <- set_label(g, totallabs = totallabs, p2 = x)
+    
     if (recording){
         print(g)
     }
@@ -194,11 +217,15 @@ grid.draw.ggwrap <- function(x, recording=TRUE){
     expand <- axis_wrap$expand
     rngrev <- ggrange2(plot=x, 'x')
     rng <- rngrev$axis_range
-    if (rngrev$flagrev == "reverse"){
+    if (is.null(rngrev$flagrev)){
+        rng <- c(.5, length(rng))
+    }else if (rngrev$flagrev == "reverse"){
         rng <- rev(-1 * (rng))
     }
     breaks <- seq(rng[1], rng[2], length.out=nstep + 1)
-    if (!rngrev$flagrev %in% c("identity", "reverse")){
+    if (is.null(rngrev$flagrev)) {
+        breaks <- round(breaks, 0) + .5
+    } else if (!rngrev$flagrev %in% c("identity", "reverse")){
         breaks <- rngrev$inversefun(breaks)
     }
     x <- add_expand(plot = x, expand = expand, axis = "x")

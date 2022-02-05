@@ -122,6 +122,19 @@ p +
      scale_y_break(c(13, 17), scales=0.5, ticklabels=c(17, 18, 19)) +
      scale_y_break(c(19,21), scales=1, ticklabels=c(21, 22, 23))
 
+## ----fig.width=7, fig.height=5.5----------------------------------------------
+p <- ggplot(mpg, aes(displ, hwy)) +
+     geom_point() +
+     scale_y_continuous(
+       "mpg (US)",
+       sec.axis = sec_axis(~ . * 1.20, name = "mpg (UK)")
+     ) +
+      theme(
+        axis.title.y.left = element_text(color="deepskyblue"),
+        axis.title.y.right = element_text(color = "orange")
+      )
+p1 <- p + scale_y_break(breaks = c(20, 30)) 
+
 ## ----message=FALSE, fig.width=8, fig.height=5, fig.keep="last"----------------
 library(patchwork)
 
@@ -141,6 +154,11 @@ p <- ggplot(economics, aes(x=date, y = unemploy, colour = uempmed)) +
   geom_line()
 
 p + scale_wrap(n=4)
+
+## ----fig.width=7, fig.height=6------------------------------------------------
+ggplot(mpg, aes(class, hwy)) + 
+  geom_boxplot() +
+      scale_wrap(n = 2)
 
 ## -----------------------------------------------------------------------------
 library(ggplot2)
