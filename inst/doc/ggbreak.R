@@ -122,7 +122,7 @@ p +
      scale_y_break(c(13, 17), scales=0.5, ticklabels=c(17, 18, 19)) +
      scale_y_break(c(19,21), scales=1, ticklabels=c(21, 22, 23))
 
-## ----fig.width=7, fig.height=5.5----------------------------------------------
+## ----fig.width=10, fig.height=5-----------------------------------------------
 p <- ggplot(mpg, aes(displ, hwy)) +
      geom_point() +
      scale_y_continuous(
@@ -133,7 +133,9 @@ p <- ggplot(mpg, aes(displ, hwy)) +
         axis.title.y.left = element_text(color="deepskyblue"),
         axis.title.y.right = element_text(color = "orange")
       )
-p1 <- p + scale_y_break(breaks = c(20, 30)) 
+p1 <- p + scale_y_break(breaks = c(20, 30))
+p2 <- p + scale_x_break(breaks = c(3, 4))
+p1 + p2
 
 ## ----message=FALSE, fig.width=8, fig.height=5, fig.keep="last"----------------
 library(patchwork)

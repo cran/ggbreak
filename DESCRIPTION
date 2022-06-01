@@ -1,13 +1,13 @@
 Package: ggbreak
 Title: Set Axis Break for 'ggplot2'
-Version: 0.0.9
+Version: 0.1.0
 Authors@R: c(
        person("Guangchuang", "Yu",     email = "guangchuangyu@gmail.com", role = c("aut", "cre", "cph"), comment = c(ORCID = "0000-0002-6485-8781")),
        person("Shuangbin", "Xu",       email = "xshuangbin@163.com",      role = "aut", comment = c(ORCID="0000-0003-3513-5362"))
        )
 Description: An implementation of scale functions for setting axis breaks of a 'gg' plot.
 Imports: ggfun (>= 0.0.4), grid, ggplot2, ggplotify (>= 0.0.7), aplot
-        (>= 0.1.0), rlang, stats
+        (>= 0.1.5), rlang, stats
 Suggests: knitr, prettydoc, rmarkdown, patchwork, pillar
 VignetteBuilder: knitr
 License: Artistic-2.0
@@ -18,10 +18,10 @@ URL: https://github.com/YuLab-SMU/ggbreak (devel),
 BugReports: https://github.com/YuLab-SMU/ggbreak/issues
 RoxygenNote: 7.1.2
 NeedsCompilation: no
-Packaged: 2022-02-05 16:29:21 UTC; guang
+Packaged: 2022-06-01 07:30:03 UTC; ygc
 Author: Guangchuang Yu [aut, cre, cph]
     (<https://orcid.org/0000-0002-6485-8781>),
   Shuangbin Xu [aut] (<https://orcid.org/0000-0003-3513-5362>)
 Maintainer: Guangchuang Yu <guangchuangyu@gmail.com>
 Repository: CRAN
-Date/Publication: 2022-02-05 16:50:02 UTC
+Date/Publication: 2022-06-01 07:40:02 UTC
