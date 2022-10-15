@@ -176,3 +176,20 @@ p + scale_y_cut(breaks=c(7, 18), which=c(1, 3), scales=c(3, 0.5))
 ## -----------------------------------------------------------------------------
 p + scale_y_cut(breaks=c(7, 18), which=c(1, 3), scales=c(3, 0.5), space=.5)
 
+## ----legend-subview, fig.keep="last"------------------------------------------
+## original plot
+p1 <- ggplot(mpg, aes(displ, hwy, color=factor(cyl))) + geom_point()
+
+## ggbreak plot without legend
+p2 <- p1 + scale_x_break(c(3, 4)) +
+    theme(legend.position="none") 
+
+## extract legend from original plot
+leg = cowplot::get_legend(p1)
+
+## redraw the figure
+p3 <- ggplotify::as.ggplot(print(p2))
+
+## place the legend 
+p3 + ggimage::geom_subview(x=.9, y=.8, subview=leg)
+

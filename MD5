@@ -1,6 +1,6 @@
-fdccb418971c64b3ef611c365e436fa8 *DESCRIPTION
+4381ba627b2687c4651208fc52af9116 *DESCRIPTION
 338b2bb7dbab370e3f00b0632887443e *NAMESPACE
-83bf9b9d05e5d996ce03f625767f1e40 *NEWS.md
+1332b2c7db8e6217e171a90c4d2e3a77 *NEWS.md
 9cb1903d48affcc6e4e9e6e9d37daa32 *R/grid-draw-utilities.R
 9d29e310313010b56a1090ea5fc024d7 *R/method-ggplot-add.R
 e33f7e2f25c1b7008ec8b922c5235319 *R/method-grid-draw.R
@@ -9,12 +9,12 @@ a2c4da6edbfda3eb58ed2e19588481c0 *R/method-plot.R
 99e673752fc4c23a198b94976990ec1d *R/scales.R
 c513a0a1da09b8b63a36b9ae51dd034d *R/utilities.R
 b337cca6b7c317ef7871fe431f68051b *R/zzz.R
-b88957c147cc659f483b18bf46c07b0d *build/vignette.rds
+5f53eabb48a2d2a7a5384ce40fabd19a *build/vignette.rds
 6b190ebb5cd047d2c39599d21e11b2d4 *inst/CITATION
-d3df84fb1407e20cdd37c5044ab82ebc *inst/doc/ggbreak.R
-2fc265b68a8ee52f7d513c0812829a0f *inst/doc/ggbreak.Rmd
-702f3ce88228ee7d48e592b176f7d7b2 *inst/doc/ggbreak.html
+420548d8bac96d1970b85a2fdfff88a8 *inst/doc/ggbreak.R
+8703e5dd58dee1fc2cd88b439faed732 *inst/doc/ggbreak.Rmd
+084b0cc5094423a74caead875ed76894 *inst/doc/ggbreak.html
 88ec32794a82392a7cf62cde4737da10 *man/scale_break.Rd
 aeb57dc765e6bcbab79b0a5442c00fd1 *man/scale_cut.Rd
 b839dfeef5b7ac7b1e65f794fda78265 *man/scale_wrap.Rd
-2fc265b68a8ee52f7d513c0812829a0f *vignettes/ggbreak.Rmd
+8703e5dd58dee1fc2cd88b439faed732 *vignettes/ggbreak.Rmd
