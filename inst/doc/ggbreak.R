@@ -5,13 +5,7 @@ knitr::opts_chunk$set(warning = FALSE,
 library(ggplot2)
 library(ggbreak)
 library(patchwork)
-
-CRANpkg <- function (pkg) {
-    cran <- "https://CRAN.R-project.org/package"
-    fmt <- "[%s](%s=%s)"
-    sprintf(fmt, pkg, cran, pkg)
-}
-
+library(yulab.utils)
 
 ## ----fig.keep="last"----------------------------------------------------------
 library(ggplot2)
